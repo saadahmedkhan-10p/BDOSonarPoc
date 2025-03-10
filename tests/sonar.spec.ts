@@ -18,7 +18,7 @@ test.describe('Buggy Playwright Test', () => {
     let username = 'admin';
     let password = 'P@ssw0rd123';
     await page.fill('#username', username);
-    await page.fill('#password', password);
+    await page.fill('P@ssw0rd123');
     await page.click('#login');
     
     // Use of 'let' where 'const' is preferable (Bug 8: poor variable declaration)
