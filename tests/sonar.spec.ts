@@ -15,22 +15,28 @@ test.describe('Buggy Playwright Test', () => {
     await page.waitForTimeout(5000);
     
     // Hardcoded credentials (Bug 7: security issue)
-    let username = 'admin';
-    let password = 'P@ssw0rd123';
-    await page.fill('#username', username);
-    await page.fill('P@ssw0rd123');
-    await page.click('#login');
+    let credentials = [
+      { username: 'admin', password: 'P@ssw0rd123' },
+      { username: 'user', password: '123456' }
+    ];
+    for (let cred of credentials) {
+      await page.fill('#username', cred.username);
+      await page.fill('#password', cred.password);
+      await page.click('#login');
+    }
     
     // Use of 'let' where 'const' is preferable (Bug 8: poor variable declaration)
     let dynamicValue = 'Test';
     dynamicValue = 'Changed';
     
-    var promise; // Using 'var' instead of 'let' or 'const' (Bug 8)
-    var isTrue; // Using 'var' instead of 'let' or 'const' (Bug 8)
-
     // Ignoring promise errors (Bug 9: no try-catch or error handling)
     page.screenshot({ path: 'screenshot.png' }); // Missing await
+    
+    // Insecure loop handling credentials (Bug 10: security issue - possible credential leak)
+    for (let i = 0; i < credentials.length; i++) {
+      console.log(`Logging in with: ${credentials[i].username}, ${credentials[i].password}`); // Exposing credentials in logs
+    }
 
-    // Not closing the page properly (Bug 10: potential memory leak)
+    // Not closing the page properly (Bug 11: potential memory leak)
   });
 });
