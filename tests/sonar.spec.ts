@@ -26,6 +26,7 @@ test.describe('Buggy Playwright Test', () => {
     dynamicValue = 'Changed';
     
     var promise; // Using 'var' instead of 'let' or 'const' (Bug 8)
+    var isTrue; // Using 'var' instead of 'let' or 'const' (Bug 8)
 
     // Ignoring promise errors (Bug 9: no try-catch or error handling)
     page.screenshot({ path: 'screenshot.png' }); // Missing await
